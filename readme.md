@@ -114,42 +114,6 @@ $ node cli_app.js hello
   error: missing required argument `name'
 
 ```
-# Required and optional parameters
-Commander requires parameters defined with `<>` angle brackets. Parameters defined with `[]` square brackets are optional.
- 
-Let's change the _name_ parameter to be optional. In `cli_app.js` change
-```javascript
-.command('hello <name>')
- ```
- to
- ```javascript
-.command('hello [name]')
-```
-Now Commander.js accepts our _sayHi_ command without a parameter.
-```bash
-$ node cli_app hello
-Hi! undefined
-```
-But our `sayHello` function is writing the now undefined `name` variable to the console. 
-
-Let's fix `sayHello.js` to check `name` before writing it to the console. We just need to change 
-```javascript
-console.log('Hello ' + name)
-```
-to 
-```javascript
-console.log('Hello ' + (name || ''))
-```
-Now it works with or without the _name_ parameter.
-```bash
-$ node cli_app hello
-< .. >
-```
-```bash
-$ node cli_app hello Jamie
-< .. >
-
-```
 # References
 1. This tutorial was inspired by Rowland Ekemezie's [Build An Interactive Command-Line Application with Node.js](https://scotch.io/tutorials/build-an-interactive-command-line-application-with-nodejs). Rowland's tutorial creates a little contact manager that uses the MongoDB database. I wanted something simpler to use as a starting point for little utilities that didn't need a database. If you need a database I suggest you start with Rowland's tutorial.
 2. [Yarn](https://yarnpkg.com/en/) package manager.
