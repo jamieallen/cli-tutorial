@@ -1,0 +1,11 @@
+{
+  "name": "cli_app",
+  "version": "1.0.0",
+  "description": "A command line utility skeleton.",
+  "main": "cli_app",
+  "author": "Jamie Allen <jamie@jcallen.net>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.12.2"
+  }
+}
