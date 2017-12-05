@@ -12,7 +12,7 @@ commander
 // required 'name' parameter. The '.action' method tells commander what
 // function to invoke to perform this command
 commander
-  .command('hello <name>')
+  .command('hello [name]')
   .alias('H')
   .description('Say hello')
   .action(name => sayHello(name))

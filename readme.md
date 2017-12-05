@@ -34,7 +34,7 @@ $ cat package.json
 }
 ```
 # Create the basic app
-Now let's create the `cli_app` in our project directory.
+Now let's create `cli_app.js` in our project directory.
 ```javascript
 'use strict'
 const commander = require('commander')
@@ -75,7 +75,7 @@ module.exports = sayHello
 All this does is write a console log message. Let's run it.
 ```bash
 $ node cli_app hello Jamie
-Hi! Jamie
+Hello Jamie
 ```
 ## Free functionality from Commander.js
 We get a lot of functionality for free from Commander.js. For example:
@@ -85,7 +85,6 @@ $ node cli_app --version
 ```
 ```bash
 $ node cli_app --help
-$ node cli_app.js --help
 
   Usage: cli_app [options] [command]
 
@@ -100,22 +99,57 @@ $ node cli_app.js --help
 
   Commands:
 
-    hello|s <name>  Say hello
+    hello|H <name>  Say hello
 ```
-There are shorter aliases defined for the built in Commander.js options, for example: `-V` and `-h`. We defined a short alias for our __hello__ command, __H__. Try it.
+There are shorter aliases defined for the built in Commander.js options, for example: `-V` and `-h`. We defined __H__ as a short alias for our __hello__ command. Try it.
 ```bash
-$ node cli_app.js H Jamie
+$ node cli_app H Jamie
 Hello Jamie
 ```
 And we get error checking, for example, checking for required parameters.
 ```bash
-$ node cli_app.js hello
+$ node cli_app hello
 
   error: missing required argument `name'
 
 ```
+# Required and optional parameters
+Commander requires parameters defined with `<>` angle brackets. Parameters defined with `[]` square brackets are optional.
+ 
+Let's change the _name_ parameter to be optional. In `cli_app.js` change
+```javascript
+.command('hello <name>')
+ ```
+ to
+ ```javascript
+.command('hello [name]')
+```
+Now Commander.js accepts our _sayHi_ command without a parameter.
+```bash
+$ node cli_app hello
+Hi! undefined
+```
+But our `sayHello` function is writing the now undefined `name` variable to the console. 
+
+Let's fix `sayHello.js` to check `name` before writing it to the console. We just need to change 
+```javascript
+console.log('Hello ' + name)
+```
+to 
+```javascript
+console.log('Hello ' + (name || ''))
+```
+Now it works with or without the _name_ parameter.
+```bash
+$ node cli_app hello
+Hello
+```
+```bash
+$ node cli_app hello Jamie
+Hello Jamie
+```
 # References
-1. This tutorial was inspired by Rowland Ekemezie's [Build An Interactive Command-Line Application with Node.js](https://scotch.io/tutorials/build-an-interactive-command-line-application-with-nodejs). Rowland's tutorial creates a little contact manager that uses the MongoDB database. I wanted something simpler to use as a starting point for little utilities that didn't need a database. If you need a database I suggest you start with Rowland's tutorial.
+1. This tutorial was inspired by Rowland Ekemezie's [Build An Interactive Command-Line Application with Node.js](https://scotch.io/tutorials/build-an-interactive-command-line-application-with-nodejs). Rowland's tutorial creates a toy contact manager that uses the MongoDB database. I wanted something simpler to use as a starting point for little utilities that didn't need a database. If you need a database I suggest you start with Rowland's tutorial.
 2. [Yarn](https://yarnpkg.com/en/) package manager.
 3. Commander.js [npm page](https://www.npmjs.com/package/commander).
 4. Commander.js [Readme.md](https://github.com/tj/commander.js/blob/master/Readme.md).

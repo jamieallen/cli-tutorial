@@ -1,7 +1,7 @@
 'use strict'
 
 const sayHello = (name) => {
-  console.log('Hello ' + name)
+  console.log('Hello ' + (name || ''))
 }
 
 // Export all methods
